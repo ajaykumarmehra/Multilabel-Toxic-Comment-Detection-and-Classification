@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-base.min.js" type="text/javascript"></script>
+	<title>Toxic Comment</title>
+	<script>
+		anychart.onDocumentReady(function() {
+		// set the data
+		var data = {
+		header: ["Name", "Death toll"],
+		rows: [
+			["toxic", {{data[0]}}],
+			["severe_toxic", {{data[1]}}],
+			["obscene", {{data[2]}}],
+			["threat", {{data[3]}}],
+			["insult", {{data[4]}}],
+			["identity_hate", {{data[5]}}],
+			["Neutral", {{data[6]}}]
+		]};
+
+		// create the chart
+		var chart = anychart.bar();
+
+		// add data
+		chart.data(data);
+
+		// draw
+		chart.container("fillchart");
+		chart.draw();
+		});
+	</script>
+</head>
+<body>
+	<div class="container" style="padding:15px">
+		<div class="row" id = "row1">
+			<div class="card-body align-items-center d-flex justify-content-center" id="titlecol">
+				<h3 class="card-title">Comment Toxicity Detection</h5>
+				<p class="card-text">This application uses a Bidirectional LSTM RNN model to predict the inappropriateness of comment</p>
+			</div>
+		</div>
+		<div class="row" id = "row2">
+			<div class="col s12">
+				<div id="main" class="card">
+					<div class="flex-container" style="height:380px">
+						<div class="flex-child">
+							<div class="card-content">
+								<span class="card-title">Comment Here</span>
+								<div class="row">
+									<form id="task-form" action ="/predict" method="POST">
+										<div class="input-field col s12">
+											<input type="text" name="task" id = "task" autocomplete="off">
+											<label for="filter"> Enter your comment here </label>
+										</div>
+										<input type="submit" name = 'submit-button' value="glove" class="btn" href='#'>
+										<input type="submit" name = 'submit-button' value="word2vec" class="btn" href='#'>
+										<input type="reset" value="Reset" class="btn" href='#'>
+									</form>
+								</div>
+							</div>
+						</div>
+						
+						<div class="flex-child lime">
+							<div class="card-action" style="height:100%">
+								<span class="card-title">RESULT</span>
+								<div class="container" id="fillchart" style="height: 85%; width: 100%; padding:10px">
+								   	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
